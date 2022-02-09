@@ -37,18 +37,15 @@ resource "aws_route_table" "sn1-rt" {
   }
 }
 
-# Set up the VPN connection. This ties the VPN Gateway and Custome Gateway together
-# We set up 2 tunnels for redundnat connections and we are setting the system up for IPSec. Currently it is only static routes
-resource "aws_vpn_connection" "vpn1" {
-  vpn_gateway_id      = aws_vpn_gateway.vpn_gw1.id
-  customer_gateway_id = aws_customer_gateway.cust_gw1.id
-  type                = "ipsec.1"
-  static_routes_only  = true
-  tunnel1_preshared_key = var.tunnel1_key
-  tunnel1_inside_cidr = var.tunnel1_cidr
-  tunnel2_preshared_key = var.tunnel2_key
-  tunnel2_inside_cidr = var.tunnel2_cidr
+# Set up the VPN gateway, not much here.
+resource "aws_vpn_gateway" "vpn_gw1" {
+  vpc_id = aws_vpc.vpc1.id
+
+  tags = {
+    Name = var.vpn_gw_name
+  }
 }
+
 # Set up the customer gateway, not much here except to define the BGP ASN and Router ID 
 
   resource "aws_customer_gateway" "cust_gw1" {
@@ -61,12 +58,16 @@ resource "aws_vpn_connection" "vpn1" {
   }
 }
 
-# Set up the VPN gateway, not much here.
-resource "aws_vpn_gateway" "vpn_gw1" {
-  vpc_id = aws_vpc.vpc1.id
 
-  tags = {
-    Name = var.vpn_gw_name
-  }
+# Set up the VPN connection. This ties the VPN Gateway and Custome Gateway together
+# We set up 2 tunnels for redundnat connections and we are setting the system up for IPSec. Currently it is only static routes
+resource "aws_vpn_connection" "vpn1" {
+  vpn_gateway_id      = aws_vpn_gateway.vpn_gw1.id
+  customer_gateway_id = aws_customer_gateway.cust_gw1.id
+  type                = "ipsec.1"
+  static_routes_only  = true
+  tunnel1_preshared_key = var.tunnel1_key
+  tunnel1_inside_cidr = var.tunnel1_cidr
+  tunnel2_preshared_key = var.tunnel2_key
+  tunnel2_inside_cidr = var.tunnel2_cidr
 }
-
