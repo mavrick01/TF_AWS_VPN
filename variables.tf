@@ -2,7 +2,7 @@
 variable "aws_region" {
   description = "Region to operate in"
   type = string
-  default = "ap-southeast-2"
+  default = "us-west-2"
 }
 
 variable "aws_profile" {
@@ -19,11 +19,11 @@ variable "aws_vpc_name" {
 variable "aws_vpc_cidr" {
   description = "Set a specific CIDR for the VPC in aws_vpc_name"
   type = string
-  default = "172.33.0.0/16"
+  default = "192.168.251.0/24"
 }
 
 variable "aws_vpc_sn_name" {
-  description = "Name of the VPC"
+  description = "Name of the Subnet"
   type = string
   default = "Subnet1"
 }
@@ -31,7 +31,7 @@ variable "aws_vpc_sn_name" {
 variable "aws_vpc_sn_cidr" {
   description = "Set a specific subnet for the VPC in aws_vpc_name"
   type = string
-  default = "172.33.0.0/20"
+  default = "192.168.251.0/24"
 }
 variable "aws_rt_name" {
   description = "name of the route on the other end of the gateway links"
@@ -82,7 +82,7 @@ variable "cust_gw_asn" {
 variable "cust_gw_ip" {
   description = "IP Lookback for the customer gateway"
   type = string
-  default = "120.21.30.253"
+  default = "134.238.245.109"
 }
 
 variable "vpn_gw_name" {
